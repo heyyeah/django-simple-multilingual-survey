@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import models
-from django.utils.translation import ugettext_lazy as _
 import uuid
-from multilingual_survey.models import Response, Answer, Question, Choice
+from multilingual_survey.models import Response, Answer
+from six import iteritems
 
 
 class ResponseForm(models.ModelForm):
@@ -54,7 +54,7 @@ class ResponseForm(models.ModelForm):
 
         # create an answer object for each question and associate it with this
         # response.
-        for field_name, field_value in self.cleaned_data.iteritems():
+        for field_name, field_value in iteritems(self.cleaned_data):
             if field_name.startswith("question_"):
                 a = Answer()
                 a.choice = field_value
